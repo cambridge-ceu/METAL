@@ -677,7 +677,7 @@ void Analyze(bool heterogeneity) {
             }
 
             for (int j = 0; j < customVariables.Length(); j++)
-                fprintf(f, "\t%g", custom[j][marker]);
+                fprintf(f, "\t%-.15g", custom[j][marker]);
 
             fprintf(f, "\n");
 
@@ -1159,6 +1159,8 @@ void ProcessFile(String & filename, FileSummary * history) {
         }
 
         direction[marker] = z == 0.0 ? '0' : (z > 0.0 ? '+' : '-');
+        if (z * sqrt(1.0 / w) <= -1.959964) direction[marker] = 'n';
+        if (z * sqrt(1.0 / w) >=  1.959964) direction[marker] = 'p';
 
         if (verbose) {
             String al1 = allele1[marker];
@@ -1606,6 +1608,8 @@ bool ReProcessFile(FileSummary * history) {
             continue;
 
         direction[marker] = z == 0.0 ? '0' : (z > 0.0 ? '+' : '-');
+        if (z * sqrt(1.0 / w) <= -1.959964) direction[marker] = 'n';
+        if (z * sqrt(1.0 / w) >=  1.959964) direction[marker] = 'p';
 
         if (!useStandardErrors) {
             if (weights[marker] == 0.0) continue;
